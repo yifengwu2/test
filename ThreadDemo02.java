@@ -9,6 +9,7 @@ public class ThreadDemo02 {
         FutureTask<String> task = new FutureTask<>(new Callable<String>() {
             @Override
             public String call() {
+                System.out.println("修改了。。。");
                 return Thread.currentThread().getName() + "-> Hello World";
             }
         });
