@@ -14,7 +14,12 @@ public class Test07 {
                 log.debug("有烟没[{}]", hasCigarette);
                 if (!hasCigarette) {
                     log.debug("没烟休息会");
-                    Sleeper(2);
+//                    Sleeper(2);
+                    try {
+                        room.wait();
+                    } catch (InterruptedException e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
                 log.debug("有烟没[{}]", hasCigarette);
                 if (hasCigarette) {
@@ -34,8 +39,11 @@ public class Test07 {
         }
         Sleeper(1);
         new Thread(() -> {
-            hasCigarette = true;
-            log.debug("烟送到了");
+            synchronized (room) {
+                hasCigarette = true;
+                log.debug("烟送到了");
+                room.notify();
+            }
         }, "送烟").start();
     }
 
